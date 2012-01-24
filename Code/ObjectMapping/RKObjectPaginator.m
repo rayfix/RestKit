@@ -24,7 +24,7 @@
 #import "SOCKit.h"
 #import "RKLog.h"
 
-static NSUInteger RKObjectPaginatorDefaultPerPage = 25;
+static NSInteger RKObjectPaginatorDefaultPerPage = 25;
 
 // Private interface
 @interface RKObjectPaginator () <RKObjectLoaderDelegate>
@@ -153,7 +153,7 @@ static NSUInteger RKObjectPaginatorDefaultPerPage = 25;
     [self loadPage:currentPage - 1];
 }
 
-- (void)loadPage:(NSUInteger)pageNumber {
+- (void)loadPage:(NSInteger)pageNumber {
     NSAssert(self.mappingProvider, @"Cannot perform a load with a nil mappingProvider.");
     NSAssert(! objectLoader, @"Cannot perform a load while one is already in progress.");
     currentPage = pageNumber;

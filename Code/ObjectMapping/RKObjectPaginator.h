@@ -109,16 +109,16 @@
 /** @name Pagination Metadata */
 
 /// The number of objects to load per page
-@property (nonatomic, assign) NSUInteger perPage;
+@property (nonatomic, assign) NSInteger perPage;
 
 /// The number of pages in the total collection
-@property (nonatomic, readonly) NSUInteger pageCount;
+@property (nonatomic, readonly) NSInteger pageCount;
 
 /// The total number of objects in the collection
-@property (nonatomic, readonly) NSUInteger objectCount;
+@property (nonatomic, readonly) NSInteger objectCount;
 
 /// The current page number the paginator has loaded
-@property (nonatomic, readonly) NSUInteger currentPage;
+@property (nonatomic, readonly) NSInteger currentPage;
 
 @property (nonatomic, readonly, getter = isLoaded) BOOL loaded;
 
@@ -146,7 +146,7 @@
  Loads a specific page of data by mutating the current page, constructing an object
  loader to fetch the data, and object mapping the results.
  */
-- (void)loadPage:(NSUInteger)pageNumber;
+- (void)loadPage:(NSInteger)pageNumber;
 
 @end
 
@@ -161,7 +161,7 @@
 /**
  Sent to the delegate when the paginator has loaded a collection of objects for a given page
  */
-- (void)paginator:(RKObjectPaginator *)paginator didLoadObjects:(NSArray *)objects forPage:(NSUInteger)page;
+- (void)paginator:(RKObjectPaginator *)paginator didLoadObjects:(NSArray *)objects forPage:(NSInteger)page;
 
 /**
  Sent to the delegate when the paginator has failed loading due to an error
@@ -181,7 +181,7 @@
  @param page The numeric page number being loaded
  @param loader The object loader request used to load the page
  */
-- (void)paginator:(RKObjectPaginator *)paginator willLoadPage:(NSUInteger)page objectLoader:(RKObjectLoader *)loader;
+- (void)paginator:(RKObjectPaginator *)paginator willLoadPage:(NSInteger)page objectLoader:(RKObjectLoader *)loader;
 
 /**
  Sent to the delegate when the paginator has loaded the last page in the collection
