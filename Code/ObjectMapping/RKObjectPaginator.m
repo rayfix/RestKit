@@ -76,6 +76,8 @@ static NSInteger RKObjectPaginatorDefaultPerPage = 25;
     objectStore = nil;
     [objectLoader release];
     objectLoader = nil;
+    [resourcePathPattern release];
+    resourcePathPattern = nil;
     
     [super dealloc];
 }
