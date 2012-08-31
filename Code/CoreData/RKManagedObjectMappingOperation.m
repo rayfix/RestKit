@@ -65,7 +65,15 @@
         } else {
             RKLogTrace(@"Failed to find object to connect relationship '%@' with primary key value '%@'", relationshipName, valueOfLocalPrimaryKeyAttribute);
         }
-        [self.destinationObject setValue:relatedObject forKey:relationshipName];
+        @try {
+          [self.destinationObject setValue:relatedObject forKey:relationshipName];
+        }
+        @catch (NSException *exception) {
+          if ([[exception name] isEqualToString:NSObjectInaccessibleException])
+            NSLog(@"Object is gone!");
+          else
+            [exception raise];      // Unknown exception thrown.
+        }
     } else {
         RKLogTrace(@"Failed to find primary key value for attribute '%@'", primaryKeyAttribute);
     }
