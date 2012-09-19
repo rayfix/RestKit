@@ -494,8 +494,16 @@ BOOL RKObjectIsValueEqualToValue(id sourceValue, id destinationValue) {
         
         // If the relationship has changed, set it
         if ([self shouldSetValue:destinationObject atKeyPath:relationshipMapping.destinationKeyPath]) {
-            RKLogTrace(@"Mapped relationship object from keyPath '%@' to '%@'. Value: %@", relationshipMapping.sourceKeyPath, relationshipMapping.destinationKeyPath, destinationObject);
-            [self.destinationObject setValue:destinationObject forKey:relationshipMapping.destinationKeyPath];
+            RKLogTrace(@"Mapped relationship object from keyPath '%@' to '%@'. Value: %@", relationshipMapping.sourceKeyPath, relationshipMapping.destinationKeyPath, destinationObject);            
+            @try {
+              [self.destinationObject setValue:destinationObject forKey:relationshipMapping.destinationKeyPath];
+            }
+            @catch (NSException *exception) {
+              if ([[exception name] isEqualToString:NSObjectInaccessibleException])
+                NSLog(@"Object is gone!");
+              else
+                [exception raise];      // Unknown exception thrown.
+            }
         }
         
         // Fail out if a validation error has occurred
