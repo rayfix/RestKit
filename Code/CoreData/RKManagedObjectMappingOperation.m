@@ -84,9 +84,10 @@
         NSDictionary* relationshipsAndPrimaryKeyAttributes = [(RKManagedObjectMapping*)self.objectMapping relationshipsAndPrimaryKeyAttributes];
         for (NSString* relationshipName in relationshipsAndPrimaryKeyAttributes) {
             if (self.queue) {
+                __block RKManagedObjectMappingOperation* selfRef = self;
                 RKLogTrace(@"Enqueueing relationship connection using operation queue");
                 [self.queue addOperationWithBlock:^{
-                    [self connectRelationship:relationshipName];
+                    [selfRef connectRelationship:relationshipName];
                 }];
             } else {
                 [self connectRelationship:relationshipName];
