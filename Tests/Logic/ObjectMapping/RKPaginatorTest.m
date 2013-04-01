@@ -249,8 +249,8 @@ static NSString * const RKPaginatorTestResourcePathPatternWithOffset = @"/pagina
     NSURLRequest *request = [NSURLRequest requestWithURL:self.paginationURL];
     RKPaginator *paginator = [[RKPaginator alloc] initWithRequest:request paginationMapping:self.paginationMapping responseDescriptors:@[ self.responseDescriptor ]];
     __block NSArray *blockObjects = nil;
-    [paginator setCompletionBlockWithSuccess:^(RKPaginator *paginator, NSArray *objects, NSUInteger page) {
-        blockObjects = objects;
+    [paginator setCompletionBlockWithSuccess:^(RKPaginator *paginator, RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+      blockObjects = [mappingResult array];
     } failure:nil];
     [paginator loadPage:1];
     [paginator waitUntilFinished];
@@ -262,8 +262,8 @@ static NSString * const RKPaginatorTestResourcePathPatternWithOffset = @"/pagina
     NSURLRequest *request = [NSURLRequest requestWithURL:self.paginationURL];
     RKPaginator *paginator = [[RKPaginator alloc] initWithRequest:request paginationMapping:self.paginationMapping responseDescriptors:@[ self.responseDescriptor ]];
     __block NSError *expectedError = nil;
-    [paginator setCompletionBlockWithSuccess:nil failure:^(RKPaginator *paginator, NSError *error) {
-        expectedError = error;
+    [paginator setCompletionBlockWithSuccess:nil failure:^(RKPaginator *paginator, RKObjectRequestOperation *operation, NSError *error) {
+      expectedError = error;
     }];
     [paginator loadPage:999];
     [paginator waitUntilFinished];
@@ -275,8 +275,8 @@ static NSString * const RKPaginatorTestResourcePathPatternWithOffset = @"/pagina
     NSURLRequest *request = [NSURLRequest requestWithURL:self.paginationURL];
     RKPaginator *paginator = [[RKPaginator alloc] initWithRequest:request paginationMapping:self.paginationMapping responseDescriptors:@[ self.responseDescriptor ]];
     __block NSArray *blockObjects = nil;
-    [paginator setCompletionBlockWithSuccess:^(RKPaginator *paginator, NSArray *objects, NSUInteger page) {
-        blockObjects = objects;
+    [paginator setCompletionBlockWithSuccess:^(RKPaginator *paginator, RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        blockObjects = [mappingResult array];
     } failure:nil];
     [paginator loadPage:1];
     expect(blockObjects).willNot.beNil();
@@ -418,8 +418,8 @@ static NSString * const RKPaginatorTestResourcePathPatternWithOffset = @"/pagina
     NSURLRequest *request = [NSURLRequest requestWithURL:paginationURL];
     RKPaginator *paginator = [[RKPaginator alloc] initWithRequest:request paginationMapping:self.paginationMapping responseDescriptors:@[ self.responseDescriptor ]];
     __block NSArray *blockObjects = nil;
-    [paginator setCompletionBlockWithSuccess:^(RKPaginator *paginator, NSArray *objects, NSUInteger page) {
-        blockObjects = objects;
+    [paginator setCompletionBlockWithSuccess:^(RKPaginator *paginator, RKObjectRequestOperation *operation, RKMappingResult *mappingResult)
+        blockObjects = [mappingResult array];
     } failure:nil];
     [paginator loadPage:1];
     [paginator waitUntilFinished];

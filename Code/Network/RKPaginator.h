@@ -22,6 +22,7 @@
 #import "RKManagedObjectCaching.h"
 #import "RKObjectMapping.h"
 #import "RKMappingResult.h"
+#import "RKObjectRequestOperation.h"
 
 /**
  Instances of `RKPaginator` retrieve paginated collections of mappable data from remote systems via HTTP. Paginators perform GET requests and use a patterned URL to construct a full URL reflecting the state of the paginator. Paginators rely on an instance of RKObjectMappingProvider to determine how to perform object mapping on the retrieved data. Paginators can load Core Data backed models provided that an instance of RKManagedObjectStore is assigned to the paginator.
@@ -114,8 +115,8 @@
  @param success A block to be executed upon a successful load of a page of objects. The block has no return value and takes three arguments: the paginator object, an array containing the paginated objects, and an integer indicating the page that was loaded.
  @param failure A block to be exected upon a failed load. The block has no return value and takes two arguments: the paginator object and an error indicating the nature of the failure.
  */
-- (void)setCompletionBlockWithSuccess:(void (^)(RKPaginator *paginator, NSArray *objects, NSUInteger page))success
-                              failure:(void (^)(RKPaginator *paginator, NSError *error))failure;
+- (void)setCompletionBlockWithSuccess:(void (^)(RKPaginator *paginator, RKObjectRequestOperation *operation, RKMappingResult *mappingResult))success
+                              failure:(void (^)(RKPaginator *paginator, RKObjectRequestOperation *operation, NSError *error))failure;
 
 
 ///-----------------------------------
