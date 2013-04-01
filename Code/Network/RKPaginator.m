@@ -51,6 +51,7 @@ static NSUInteger RKPaginatorDefaultPerPage = 25;
 
 @property (nonatomic, copy) void (^successBlock)(RKPaginator *paginator, RKObjectRequestOperation *operation, RKMappingResult *mappingResult);
 @property (nonatomic, copy) void (^failureBlock)(RKPaginator *paginator, RKObjectRequestOperation *operation, NSError *error);
+@property (nonatomic, copy) void (^configurationBlock)(RKObjectRequestOperation *operation);
 @end
 
 @implementation RKPaginator
@@ -108,6 +109,11 @@ static NSUInteger RKPaginatorDefaultPerPage = 25;
 {
     self.successBlock = success;
     self.failureBlock = failure;
+}
+
+- (void)setObjectRequestConfigurationBlock:(void (^)(RKObjectRequestOperation *))configurationBlock
+{
+    self.configurationBlock = configurationBlock;
 }
 
 // Private. Public consumers can rely on isLoaded
@@ -191,7 +197,11 @@ static NSUInteger RKPaginatorDefaultPerPage = 25;
     } else {
         self.objectRequestOperation = [[RKObjectRequestOperation alloc] initWithRequest:mutableRequest responseDescriptors:self.responseDescriptors];
     }
-    
+
+    if (self.configurationBlock) {
+        self.configurationBlock(self.objectRequestOperation);
+    }
+
     // Add KVO to ensure notification of loaded state prior to execution of completion block
     [self.objectRequestOperation addObserver:self forKeyPath:@"isFinished" options:0 context:nil];
 
