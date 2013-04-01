@@ -165,6 +165,15 @@
  */
 @property (nonatomic, copy) NSArray *fetchRequestBlocks;
 
+///------------------------------
+/// @name Dynamic Configuration
+///------------------------------
+
+/**
+ *  Called immediately before the request is issued to allow custom configuration.
+ */
+- (void)setObjectRequestConfigurationBlock:(void (^)(RKObjectRequestOperation *operation))configurationBlock;
+
 ///------------------------------------
 /// @name Accessing Pagination Metadata
 ///------------------------------------
