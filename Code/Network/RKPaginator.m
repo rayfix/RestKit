@@ -49,8 +49,8 @@ static NSUInteger RKPaginatorDefaultPerPage = 25;
 @property (nonatomic, assign, readwrite) NSNumber *pageCountNumber;
 @property (nonatomic, assign, readwrite) NSNumber *objectCountNumber;
 
-@property (nonatomic, copy) void (^successBlock)(RKPaginator *paginator, NSArray *objects, NSUInteger page);
-@property (nonatomic, copy) void (^failureBlock)(RKPaginator *paginator, NSError *error);
+@property (nonatomic, copy) void (^successBlock)(RKPaginator *paginator, RKObjectRequestOperation *operation, RKMappingResult *mappingResult);
+@property (nonatomic, copy) void (^failureBlock)(RKPaginator *paginator, RKObjectRequestOperation *operation, NSError *error);
 @end
 
 @implementation RKPaginator
@@ -103,8 +103,8 @@ static NSUInteger RKPaginatorDefaultPerPage = 25;
     _HTTPOperationClass = operationClass;
 }
 
-- (void)setCompletionBlockWithSuccess:(void (^)(RKPaginator *paginator, NSArray *objects, NSUInteger page))success
-                              failure:(void (^)(RKPaginator *paginator, NSError *error))failure
+- (void)setCompletionBlockWithSuccess:(void (^)(RKPaginator *, RKObjectRequestOperation *, RKMappingResult *))success
+                              failure:(void (^)(RKPaginator *, RKObjectRequestOperation *, NSError *))failure
 {
     self.successBlock = success;
     self.failureBlock = failure;
@@ -217,11 +217,11 @@ static NSUInteger RKPaginatorDefaultPerPage = 25;
     }];
     [self.objectRequestOperation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         if (self.successBlock) {
-            self.successBlock(self, [mappingResult array], self.currentPage);
+            self.successBlock(self, operation, mappingResult);
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         if (self.failureBlock) {
-            self.failureBlock(self, error);
+            self.failureBlock(self, operation, error);
         }
     }];
 #pragma clang diagnostic pop
