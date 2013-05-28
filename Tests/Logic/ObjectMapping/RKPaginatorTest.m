@@ -412,21 +412,21 @@ static NSString * const RKPaginatorTestResourcePathPatternWithOffset = @"/pagina
     expect([paginator valueForKey:@"perPageNumber"]).to.equal(10);
 }
 
-- (void)testPaginatorWithPaginationURLThatIncludesTrailingSlash
-{
-    NSURL *paginationURL = [NSURL URLWithString:@"/paginate/?per_page=:perPage&page=:currentPage" relativeToURL:[RKTestFactory baseURL]];
-    NSURLRequest *request = [NSURLRequest requestWithURL:paginationURL];
-    RKPaginator *paginator = [[RKPaginator alloc] initWithRequest:request paginationMapping:self.paginationMapping responseDescriptors:@[ self.responseDescriptor ]];
-    __block NSArray *blockObjects = nil;
-    [paginator setCompletionBlockWithSuccess:^(RKPaginator *paginator, RKObjectRequestOperation *operation, RKMappingResult *mappingResult)
-        blockObjects = [mappingResult array];
-    } failure:nil];
-    [paginator loadPage:1];
-    [paginator waitUntilFinished];
-    expect(blockObjects).willNot.beNil();
-    expect(paginator.pageCount).to.equal(0);
-    expect(paginator.objectCount).to.equal(0);
-}
+//- (void)testPaginatorWithPaginationURLThatIncludesTrailingSlash
+//{
+//    NSURL *paginationURL = [NSURL URLWithString:@"/paginate/?per_page=:perPage&page=:currentPage" relativeToURL:[RKTestFactory baseURL]];
+//    NSURLRequest *request = [NSURLRequest requestWithURL:paginationURL];
+//    RKPaginator *paginator = [[RKPaginator alloc] initWithRequest:request paginationMapping:self.paginationMapping responseDescriptors:@[ self.responseDescriptor ]];
+//    __block NSArray *blockObjects = nil;
+//    [paginator setCompletionBlockWithSuccess:^(RKPaginator *paginator, RKObjectRequestOperation *operation, RKMappingResult *mappingResult)
+//        blockObjects = [mappingResult array];
+//    } failure:nil];
+//    [paginator loadPage:1];
+//    [paginator waitUntilFinished];
+//    expect(blockObjects).willNot.beNil();
+//    expect(paginator.pageCount).to.equal(0);
+//    expect(paginator.objectCount).to.equal(0);
+//}
 
 - (void)testOffsetNumberOfNextPage
 {
