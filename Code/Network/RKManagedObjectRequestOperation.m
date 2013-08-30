@@ -754,7 +754,14 @@ BOOL RKDoesArrayOfResponseDescriptorsContainOnlyEntityMappings(NSArray *response
     if ([orphanedObjects count]) {
         [self.privateContext performBlockAndWait:^{
             for (NSManagedObject *orphanedObject in orphanedObjects) {
-                [self.privateContext deleteObject:orphanedObject];
+                BOOL performDeletion = YES;
+                if ([orphanedObject respondsToSelector:@selector(preventOrphanDeletion)]) {
+                    NSNumber* preventDeletionNumber = [orphanedObject performSelector:@selector(preventOrphanDeletion)];
+                    performDeletion = ![preventDeletionNumber boolValue];
+                }
+                if (performDeletion) {
+                    [self.privateContext deleteObject:orphanedObject];
+                }
             }
         }];
     }
