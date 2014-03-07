@@ -187,6 +187,13 @@ static NSUInteger RKPaginatorDefaultPerPage = 25;
 
     if (self.managedObjectContext) {
         RKHTTPRequestOperation *requestOperation = [[self.HTTPOperationClass alloc] initWithRequest:mutableRequest];
+      
+        // HACK WARNING.   Need to set the SSL Pinning mode otherwise it is set to NONE.
+        // A newer version of RestKit designs out this problem.
+      
+        requestOperation.SSLPinningMode = AFSSLPinningModePublicKey;
+      
+      
         RKManagedObjectRequestOperation *managedObjectRequestOperation = [[RKManagedObjectRequestOperation alloc] initWithHTTPRequestOperation:requestOperation responseDescriptors:self.responseDescriptors];
         managedObjectRequestOperation.managedObjectContext = self.managedObjectContext;
         managedObjectRequestOperation.managedObjectCache = self.managedObjectCache;
